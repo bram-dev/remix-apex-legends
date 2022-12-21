@@ -4,13 +4,17 @@ import type { Auth0Profile } from "remix-auth-auth0";
 import { Auth0Strategy } from "remix-auth-auth0";
 
 import {
+  AUTH0_AUDIENCE,
   AUTH0_CALLBACK_URL,
   AUTH0_CLIENT_ID,
   AUTH0_CLIENT_SECRET,
   AUTH0_DOMAIN,
-  AUTH0_AUDIENCE,
   SECRETS,
 } from "~/constants/index.server";
+
+declare global {
+  var accessToken: string;
+}
 
 const sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -34,9 +38,16 @@ const auth0Strategy = new Auth0Strategy(
     audience: AUTH0_AUDIENCE,
   },
   async ({ profile, accessToken }) => {
-    
-    return profile
+    //
+    // Use the returned information to process or write to the DB.
+    //
+
+    globalThis.accessToken = accessToken
+
+    return profile;
   }
 );
 
 auth.use(auth0Strategy);
+
+export const { getSession, commitSession, destroySession } = sessionStorage;

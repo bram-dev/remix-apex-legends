@@ -11,12 +11,6 @@ import {
 } from "@remix-run/react";
 import React from "react";
 import styles from "./styles/app.css"
-import type { LoaderFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import type { Auth0Profile } from "remix-auth-auth0";
-import { auth } from "~/utils/auth.server";
-import NavigationBar from "./components/navbar";
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }]
@@ -63,31 +57,11 @@ function Document({
   );
 }
 
-type LoaderData = { profile: Auth0Profile };
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const profile = await auth.isAuthenticated(request, {
-    failureRedirect: "/"
-  });
-
-  return json<LoaderData>({ profile });
-};
-
 function Layout({ children }: React.PropsWithChildren<{}>) {
-  const { profile } = useLoaderData<LoaderData>();
-
   return (
-    <div className="remix-app">
-      <NavigationBar profile={profile} />
-      <div className="remix-app__main">
-        <div className="container remix-app__main-content">{children}</div>
-      </div>
-      <footer className="remix-app__footer">
-        <div className="container remix-app__footer-content">
-          <p>&copy; You!</p>
-        </div>
-      </footer>
-    </div>
+    <>
+      {children}
+    </>
   );
 }
 

@@ -1,9 +1,9 @@
-import type { LoaderFunction } from "@remix-run/node";
+import NavigationBar from "~/components/navbar";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { Auth0Profile } from "remix-auth-auth0";
-import NavigationBar from "~/components/navbar";
 import { auth } from "~/utils/auth.server";
+import type { LoaderFunction } from "@remix-run/node";
 
 type LoaderData = { profile: Auth0Profile };
 
@@ -17,9 +17,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Games() {
   const { profile } = useLoaderData<LoaderData>();
-  
+
   return (
     <>
+      <NavigationBar profile={profile} />
       <p>GAMES</p>
     </>
   )

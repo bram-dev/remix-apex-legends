@@ -9,7 +9,7 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  await auth.isAuthenticated(request, { successRedirect: "/apex" });
+  await auth.isAuthenticated(request, { successRedirect: "/home" });
   const session = await getSession(request.headers.get("Cookie"));
   const error = session.get(auth.sessionErrorKey) as LoaderData["error"];
   return json<LoaderData>({ error });

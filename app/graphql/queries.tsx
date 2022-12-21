@@ -11,8 +11,8 @@ export const GET_MATCH_HISTORIES = gql`
         gameStartTimestamp
         gameEndTimestamp
         gameData {
-        value
-        name
+          value
+          name
         }
         map
         BRScoreChange
